@@ -10,7 +10,19 @@ SLICE_SIZE = 0.15 #seconds
 WINDOW_SIZE = 0.25 #seconds
 
 # TODO: implement this dictionary
-NUMBER_DIC = {}
+NUMBER_DIC = {
+	(697,1209):"1",
+	(697,1336):"2",
+	(697,1477):"3",
+	(770,1209):"4",
+	(770,1336):"5",
+	(770,1477):"6",
+	(852,1209):"7",
+	(852,1336):"8",
+	(852,1477):"9",
+	(941,1209):"*",
+	(941,1336):"0",
+	(941,1477):"#"}
 LOWER_FRQS = [697, 770, 852, 941]
 HIGHER_FRQS = [1209, 1336, 1477]
 FRQ_THRES = 20
@@ -57,6 +69,20 @@ def get_peak_frqs(frq, fft):
     #get the high and low frequency by splitting it in the middle (1000Hz)
 
     #spliting the FFT to high and low frequencies
+    
+    low_frq = []
+    high_frq = []
+    low_frq_fft = []
+    high_frq_fft = []
+    
+    for i in range(len(fft)):
+  
+        if frq[i] >= 1000:
+            high_frq.append(frq[i])
+            high_frq_fft.append(fft[i]) #spliting the FFT to high frequencies
+        else:
+            low_frq.append(frq[i])
+            low_frq_fft.append(fft[i]) #spliting the FFT to low frequencies	
 
     return (get_max_frq(low_frq, low_frq_fft), get_max_frq(high_frq, high_frq_fft))
 
@@ -115,14 +141,18 @@ def main(file):
         i += 1
 
         sample_slice = samples[start_index:end_index] # get the sample slice
-
         #TODO: grab the sample slice and perform FFT on it
+        sample_slice_fft = np.fft.fft(sample_slice)/n
 
         #TODO: truncate the FFT to 0 to 2000 Hz
+        sample_slice_fft = sample_slice_fft[range(max_frq_idx)]
 
         #TODO: calculate the locations of the upper and lower FFT peak using get_peak_frqs()
-
+        upper_lower_fft_index = get_peak_frqs(frq, sample_slice_fft)
         #TODO: print the values and find the number that corresponds to the numbers
+        print(upper_lower_fft_index)
+        output += get_number_from_frq(upper_lower_fft_index[0],upper_lower_fft_index[1])
+
 
         #Incrementing the start and end window for FFT analysis
         start_index += int(WINDOW_SIZE*sample_rate)

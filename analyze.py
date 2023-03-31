@@ -32,6 +32,11 @@ def main(start_time: float, file: pathlib.Path, show: bool) -> None:
     plt.figure(figsize=(20,10))
     plt.subplot(221)
     # TODO: Plot the full sample as a subplot (make sure to include labels)
+    plt.plot(time, samples)
+    plt.xlabel("Time")
+    plt.ylabel("Amplitude")
+    plt.title("Full Sample Plot")
+
 
     """***********************SAMPLE SLICE PLOT*************************"""
     print("Analyzing slice at {}s".format(start_time))
@@ -45,7 +50,11 @@ def main(start_time: float, file: pathlib.Path, show: bool) -> None:
     # Plot
     plt.subplot(222)
     # TODO: Plot the sample slice as a subplot (make sure to include labels)
-
+    plt.plot(time_slice, sample_slice)
+    plt.xlabel("Time")
+    plt.ylabel("Amplitude")
+    plt.title("Sample Slice Plot")
+   
 
     """**********************SAMPLE SLICE FFT PLOT**********************"""
     n = slice_frame_size                            # n is the number of elements in the slice
@@ -59,12 +68,16 @@ def main(start_time: float, file: pathlib.Path, show: bool) -> None:
 
     max_frq_idx = int(MAX_FRQ*slice_duration)       # get the index of the maximum frequency (2000)
     frq = frq[range(max_frq_idx)]                   # truncate the frequency array so it goes from 0 to 2000 Hz
-    sample_slice_fft = sample_slice_fft[range(max_frq_idx)]     # truncate the sample slice fft array so it goes from 0 to 2000 Hz
+    sample_slice_fft = abs(sample_slice_fft[range(max_frq_idx)])     # truncate the sample slice fft array so it goes from 0 to 2000 Hz
 
     # Plot
     plt.subplot(212)
     # TODO: Plot the frequency spectrum as a subplot (make sure to include labels)
-
+    plt.plot(frq, sample_slice_fft)
+    plt.xlabel("Frequency")
+    plt.ylabel("Amplitude")
+    plt.title("Sample Slice FFT Plot")
+    
     plt.suptitle(file)
     
     if show:

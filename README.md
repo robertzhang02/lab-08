@@ -9,9 +9,12 @@
 
 Question 1: What is the phone number dialed in sample3.py?
 
-Answer: 
+Answer: 5055034455
 
 Question 2: Describe your algorithm. Explain what each of these functions do: get_peak_frqs(), get_max_frq(), and get_number_from_frq().
 
-Answer: 
+Answer:  The function of get_peak_frqs() basically return the two highest frequencies from the splitted FFT arrays. The first one correspond to the frequency with highest amplitude in the first array which spans from 0 to 1000hz. And the seoncd one correspond to the frequency with highest amplitude in the second which spans from 1000 to 2000hz. 
+	The function of get_max_frq() is used to find the corresponding frequency which has the highest amplitude in the given FFT array. Through the combination of get_peak_frqs() and get_max_frq(), we are able to get the two highest frequcies that could be useful for the decoding part later on.
+	The function of get_number_from_frq() will generate the number that corresponds to the given two highest frequencies by checking with the NUMBER_DIC dictionary. The two useful index are from the previous function of get_peak_frqs() and get_max_frq(), which are named lower_frq and higher_frq. 
+	
 
